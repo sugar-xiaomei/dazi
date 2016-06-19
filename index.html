@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">s
+	<title>DaZiYouXi</title>
+</head>
+<style>
+	.dabox{
+		position:absolute;
+        height:100%;
+        width:100%;
+        margin: auto;
+        top:0;
+        right:0;
+        background:url(img/23.png) no-repeat;
+        background-size: 1366px 676px;
+	}
+    .box{
+        position: absolute;
+        top:0;
+        left:0;
+        overflow: hidden;
+        background: transparent;
+        height:610px;
+        width:1240px;
+        margin:auto;
+        right:0;
+        bottom:0;
+        border-radius:170px;
+    }
+	.zi{
+		color: blue;
+        font-family:"����Ӳ�ʿ�������";
+		z-index: 10000;
+        font-weight: bold;
+		width: 160px;
+		height: 160px;
+		line-height:60px;
+		background: yellow;
+		vertical-align: left;
+		background: url(img/azaz.png) no-repeat;
+		background-size:100%;
+		text-align: center;
+        line-height:60px;
+		position: absolute;
+        font-size: 48px;
+	}
+    .body{
+        position:relative;
+    }
+    .zhezhao{
+        position: absolute;
+        height:100%;
+        width:100%;
+        top:0;
+        z-index: 10000;
+        left:0;
+        background:rgba(0,0,0,0.6)
+    }
+    .zhezhao img{
+      margin:0 auto;
+      margin-top: 200px;
+      display: block;
+    }
+    .zhezhao .ready{
+     position: absolute;
+     top:420px;
+     left:830px;
+     margin:auto;
+
+     z-index: 1000000;
+     height:100px;
+    }
+    .shijian{
+        position: absolute;
+        right:0;
+        top:0;
+        bottom:0;
+        margin:auto;
+        background:yellow;
+        color:#fff;
+        height:100px;
+        width:300px;
+        font-size: 24px;
+        text-align: center;
+        line-height: 100px;
+    }
+</style>
+<body>
+	<div class="dabox">
+      <div class="box"></div>
+	</div>
+    <!-- <div class="shijian">
+        <span>3000</sapn>
+    </div> -->
+
+    <script src="jquery.js"></script>
+	<script>
+	 var box=document.querySelector(".box");
+    var shuliang=5;
+    var zimujihe={};
+    var createZimu=function(){
+        do{var zimu=String.fromCharCode(Math.floor(Math.random()*25+97));
+          }while(zimujihe[zimu])
+        var el=document.createElement("div");
+        el.innerHTML=zimu;
+        box.appendChild(el);
+        zimujihe[zimu]=el;
+        // console.log(zimujihe);
+        el.classList.add("zi");
+        el.style.left=Math.floor(Math.random()*(box.offsetWidth-el.offsetWidth))+"px";
+        var ran=Math.ceil(Math.random()*5);
+        zimujihe[zimu]={top:0,yuansu:el,off:ran};
+
+    }
+    for(var i=0;i<shuliang;i++){
+        createZimu();
+    }
+
+
+    var removeZimu=function(zi){
+        var el=zimujihe[zi].yuansu;
+        el.parentElement.removeChild(el);
+        delete zimujihe[zi];
+    }
+
+    document.onkeyup=function(e){
+        var key=String.fromCharCode(e.keyCode).toLowerCase();
+        if(e.keyCode===32){
+            toggleGame();
+            return;
+        }
+        if(zimujihe[key]){
+
+            removeZimu(key);
+            createZimu();
+        }
+    }
+    var xx=box.offsetHeight;
+    var diao=function(){
+        var arr=[];
+        for(var i in zimujihe){
+            var data=zimujihe[i];
+            var el=data.yuansu;
+            data.top+=data.off;
+            el.style.top=data.top+"px";
+            if(data.top>xx){
+                arr.push(i);
+            }
+        }
+        if(arr.length!==0){
+            removeZimu(arr[0]);
+            createZimu();
+        }
+    }
+
+    var timeId=setInterval(diao,50);
+    var toggleGame=function(){
+        if(timeId){
+            clearInterval(timeId);
+            timeId=null;
+        }else{
+            timeId=setInterval(diao,50);
+        }
+
+
+}
+      // for(var i=10;i>0;i--){
+      //     var sp=document.querySelector('.shijian span');
+      //     console.log(sp)
+      //     sp.innerHTML=i;
+      // }
+     //��ʾʱ��
+    // var now=new Date();
+    // var second=now.getSeconds();
+    // var fen=now.now.getMinutes();
+
+
+
+	</script>
+</body>
+</html>
